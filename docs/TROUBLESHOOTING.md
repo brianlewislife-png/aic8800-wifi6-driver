@@ -58,32 +58,47 @@ sudo modprobe aic8800_fdrv
 ```
 
 ### 3. "bin upload fail: 180000, err:-32" (USB broken pipe)
-**Sintoma no dmesg:** `bin upload fail: 180000, err:-32`
 
-**Causas possíveis:**
-- Firmware incompatível com a revisão do chip (chip_sub_id).
-- Porta USB instável (tente outra porta, preferencialmente USB 2.0).
-- Cabo USB com problema.
-- Revisão do chip não suportada pelo driver open-source.
+**Versões USB afetadas:** USB 3.0, 3.1, 3.2 (portas azuis)
 
-**Soluções:**
-1. Tente outras variantes de firmware:
-```bash
-# Tentar com h_u02
-sudo cp /usr/lib/firmware/aic8800DC/fmacfw_patch_8800dc_h_u02.bin /usr/lib/firmware/aic8800DC/fmacfw_patch_8800dc.bin
-sudo ./scripts/fix_probe.sh
+**Causas:**
+- Instabilidade na transferência de firmware via USB 3.0
+- Firmware incompatível com a revisão do chip
+- Porta USB instável
+- Cabo USB com problema
 
-# Tentar com ipc_u02
-sudo cp /usr/lib/firmware/aic8800DC/fmacfw_patch_8800dc_ipc_u02.bin /usr/lib/firmware/aic8800DC/fmacfw_patch_8800dc.bin
-sudo ./scripts/fix_probe.sh
-```
+**Soluções (tente nesta ordem):**
+1. **Use porta USB 2.0** (pretas, não azuis):
+   ```bash
+   # Verifique a versão da porta
+   lsusb -t
+   # 480M = USB 2.0 (recomendado)
+   # 5000M = USB 3.0 (pode causar problemas)
+   ```
 
-2. Tente em outra porta USB (USB 2.0 preferencialmente).
-3. Teste com outro cabo USB.
-4. Se nada funcionar, a revisão do chip pode não ser suportada. Verifique:
-   - Se a placa veio com CD/pendrive (driver do fabricante)
-   - Ou considere uma placa com chip Realtek (RTL8812AU/RTL8821CU) com melhor suporte Linux
-   - Ou aguarde atualização do upstream (shenmintao/RicknotDev)
+2. **Use hub USB 2.0** se só tiver portas USB 3.0:
+   - Conecte um hub USB 2.0 entre a placa e o PC
+
+3. **Desative USB autosuspend:**
+   ```bash
+   echo -1 | sudo tee /sys/module/usbcore/parameters/autosuspend
+   echo "options usbcore autosuspend=-1" | sudo tee /etc/modprobe.d/usb-autosuspend.conf
+   ```
+
+4. **Tente outras variantes de firmware:**
+   ```bash
+   # h_u02
+   sudo cp /usr/lib/firmware/aic8800DC/fmacfw_patch_8800dc_h_u02.bin /usr/lib/firmware/aic8800DC/fmacfw_patch_8800dc.bin
+   sudo ./scripts/fix_probe.sh
+
+   # ipc_u02
+   sudo cp /usr/lib/firmware/aic8800DC/fmacfw_patch_8800dc_ipc_u02.bin /usr/lib/firmware/aic8800DC/fmacfw_patch_8800dc.bin
+   sudo ./scripts/fix_probe.sh
+   ```
+
+5. **Use cabo USB curto** (< 1m) e de qualidade
+
+6. **Se nada funcionar:** a revisão do chip pode não ser suportada pelo driver open-source
 
 ### 4. Módulo não encontrado
 **Sintoma:** `modprobe: FATAL: Module aic8800_fdrv not found`

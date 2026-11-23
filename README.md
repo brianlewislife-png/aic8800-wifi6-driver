@@ -259,6 +259,73 @@ LICENSE                   # MIT
 
 ---
 
+## 🔌 Compatibilidade USB (detalhado)
+
+### Versões USB suportadas
+
+| Versão USB | Velocidade | Status | Observação |
+|------------|------------|--------|------------|
+| USB 1.0    | 1.5 Mbps   | ❌ Não recomendado | Muito lento, pode não funcionar |
+| USB 1.1    | 12 Mbps    | ⚠️ Limitado | Funciona mas lento |
+| USB 2.0    | 480 Mbps   | ✅ Recomendado | Melhor compatibilidade, estável |
+| USB 3.0    | 5 Gbps     | ⚠️ Instável | Pode causar `bin upload fail` (err:-32). Use USB 2.0 se possível |
+| USB 3.1    | 10 Gbps    | ⚠️ Instável | Mesmo problema do USB 3.0 |
+| USB 3.2    | 20 Gbps    | ⚠️ Instável | Mesmo problema do USB 3.0 |
+| USB 4      | 40 Gbps    | ⚠️ Não testado | Pode não funcionar |
+| USB-C      | Variável   | ⚠️ Depende | Se for USB 2.0, OK; se USB 3.x, problemas |
+
+### Requisitos de porta USB
+
+- **Preferência:** USB 2.0 (portas pretas, não azuis)
+- **Evitar:** USB 3.0+ (portas azuis) — pode causar `err:-32` (broken pipe)
+- **Se só tiver USB 3.0:** Use um hub USB 2.0 entre a placa e o PC
+- **Autosuspend:** Desative com `echo -1 > /sys/module/usbcore/parameters/autosuspend`
+
+### Problemas comuns por versão USB
+
+#### USB 3.0 / 3.1 / 3.2
+- **Sintoma:** `bin upload fail: 180000, err:-32` (USB broken pipe)
+- **Causa:** Instabilidade na transferência de firmware via USB 3.0
+- **Solução:**
+  1. Conecte em porta USB 2.0
+  2. Ou use hub USB 2.0
+  3. Desative autosuspend: `echo -1 > /sys/module/usbcore/parameters/autosuspend`
+  4. Se persistir, pode ser incompatibilidade de firmware
+
+#### USB 2.0
+- **Status:** Recomendado e estável
+- **Observação:** Funciona na maioria dos casos sem problemas
+
+#### USB 1.x
+- **Status:** Não recomendado
+- **Observação:** Velocidade muito baixa, pode não funcionar
+
+### Como identificar a versão da sua porta USB
+
+```bash
+# Listar portas USB e versões
+lsusb -t
+
+# Exemplo de saída:
+# /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M
+#     |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/4p, 480M
+#     |__ Port 2: Dev 3, If 0, Class=Vendor Specific Class, Driver=aic8800_fdrv, 480M
+# 480M = USB 2.0
+# 5000M = USB 3.0
+# 12M = USB 1.1
+```
+
+### Dicas para USB
+
+1. **Use portas USB 2.0** (pretas) sempre que possível
+2. **Evite hubs USB 3.0** — use hubs USB 2.0
+3. **Desative autosuspend** permanentemente:
+   ```bash
+   echo "options usbcore autosuspend=-1" | sudo tee /etc/modprobe.d/usb-autosuspend.conf
+   ```
+4. **Se a placa for USB 3.0**, ela funciona em portas USB 2.0 (com velocidade reduzida)
+5. **Cabo USB:** Use cabo curto (< 1m) e de qualidade
+
 ## 🆘 Troubleshooting / FAQ
 
 **P: A placa não aparece em `lsusb` como WiFi, só como "Aic MSC".**  
