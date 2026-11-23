@@ -16,4 +16,4 @@ ACTION=="add", SUBSYSTEM=="block", ENV{DEVTYPE}=="disk", KERNEL=="sd*", ATTRS{id
 # dongles expose a separate 1111:1111 "FLASH" driver disk next to an
 # already working Wi-Fi function), so only devices whose product string is
 # 88M80 are switched, and usb_modeswitch is pointed at this exact device.
-ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="1111", ATTR{idProduct}=="1111", ATTR{product}=="88M80*", RUN+="/bin/sh -c 'if [ -x /usr/sbin/usb_modeswitch ]; then exec /usr/sbin/usb_modeswitch -b $attr{busnum} -g $attr{devnum} -c /etc/usb_modeswitch.d/1111:1111; elif [ -x /usr/bin/usb_modeswitch ]; then exec /usr/bin/usb_modeswitch -b $attr{busnum} -g $attr{devnum} -c /etc/usb_modeswitch.d/1111:1111; fi'"
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="1111", ATTR{idProduct}=="1111", ATTR{product}=="88M80*", RUN+="/usr/lib/aic8800/pandora_modeswitch.sh"

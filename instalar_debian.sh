@@ -10,7 +10,8 @@
 # =====================================================================
 # instalar_debian.sh - Instalacao completa em um clique (Debian/Ubuntu)
 # Instala dependencias e roda o instalador DKMS.
-set -e
+set -eE
+set -o pipefail
 if [ "$EUID" -ne 0 ]; then echo "Execute como root: sudo $0"; exit 1; fi
 cd "$(dirname "$0")"
 echo "==> Atualizando lista de pacotes..."

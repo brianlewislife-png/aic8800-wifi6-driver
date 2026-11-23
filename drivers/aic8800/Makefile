@@ -1,6 +1,6 @@
 CONFIG_AIC_LOADFW_SUPPORT := m
 CONFIG_AIC8800_WLAN_SUPPORT := m
-CONFIG_AIC_ZLP_QUIRK := m
+CONFIG_AIC_ZLP_QUIRK ?= m
 
 obj-$(CONFIG_AIC_LOADFW_SUPPORT)    += aic_load_fw/
 obj-$(CONFIG_AIC8800_WLAN_SUPPORT) += aic8800_fdrv/
@@ -75,7 +75,7 @@ endif
 
 all: modules
 modules:
-	make -C $(KDIR) M=$(PWD) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) $(KBUILD_EXTRA_ARGS) modules
+	$(MAKE) -C $(KDIR) M=$(PWD) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) $(KBUILD_EXTRA_ARGS) modules
 
 install:
 	mkdir -p $(MODDESTDIR)
@@ -92,7 +92,7 @@ uninstall:
 	/sbin/depmod -a ${KVER}
 
 clean:
-	cd aic_load_fw/;make clean;cd ..
-	cd aic8800_fdrv/;make clean;cd ..
-	cd aic_zlp_quirk/;make clean;cd ..
+	cd aic_load_fw/ && $(MAKE) clean && cd ..
+	cd aic8800_fdrv/ && $(MAKE) clean && cd ..
+	cd aic_zlp_quirk/ && $(MAKE) clean && cd ..
 	rm -rf modules.order Module.symvers .modules.order.cmd .Module.symvers.cmd .tmp_versions/

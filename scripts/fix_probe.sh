@@ -10,7 +10,8 @@
 # =====================================================================
 # fix_probe.sh - Corrige o erro "probe failed with error -1" / "bin upload fail"
 # Causas comuns: firmware ausente, caminho errado, arquivo .bin faltando
-set -e
+set -eE
+set -o pipefail
 
 if [ "$EUID" -ne 0 ]; then
     echo "Execute como root: sudo $0"; exit 1

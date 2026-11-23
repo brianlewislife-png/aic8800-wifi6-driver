@@ -19,6 +19,7 @@
 #############################################################################
 
 set -eE  # Exit on error and run the ERR trap inside functions
+set -o pipefail  # Catch failures in pipelines
 
 # Color definitions
 readonly RED='\033[0;31m'
@@ -556,6 +557,21 @@ install_firmware() {
         print_warning "Udev rules file not found: $rules_source"
     fi
 
+    # Install pandora modeswitch helper script
+    local helper_source="${SCRIPT_DIR}/scripts/pandora_modeswitch.sh"
+    local helper_dest_dir="/usr/lib/aic8800"
+    local helper_dest="${helper_dest_dir}/pandora_modeswitch.sh"
+
+    if [ -f "$helper_source" ]; then
+        print_info "Installing pandora modeswitch helper to $helper_dest..."
+        mkdir -p "$helper_dest_dir" >> "$LOG_FILE" 2>&1
+        cp "$helper_source" "$helper_dest" >> "$LOG_FILE" 2>&1
+        chmod 755 "$helper_dest" >> "$LOG_FILE" 2>&1
+        print_success "Pandora modeswitch helper installed."
+    else
+        print_warning "Pandora modeswitch helper not found: $helper_source"
+    fi
+
     # Install usb_modeswitch configuration for AIC8800D80 "Pandora" clone
     local modeswitch_source="${SCRIPT_DIR}/usb_modeswitch/1111_1111"
     local modeswitch_dest="/etc/usb_modeswitch.d/1111:1111"
@@ -570,6 +586,15 @@ install_firmware() {
     fi
 
     print_success "Firmware installed successfully."
+
+    # Install modprobe softdep so aic_load_fw loads before aic8800_fdrv
+    local modprobe_conf="/etc/modprobe.d/aic8800.conf"
+    print_info "Installing modprobe softdep to $modprobe_conf..."
+    cat > "$modprobe_conf" << 'EOF'
+# AIC8800: ensure firmware loader loads before Wi-Fi driver
+softdep aic8800_fdrv pre: aic_load_fw
+EOF
+    print_success "Modprobe configuration installed."
 }
 
 #############################################################################
@@ -589,24 +614,24 @@ create_dkms_conf() {
     
     print_info "Creating dkms.conf..."
     
-    # CORRIGIDO: Configuração para múltiplos módulos
+    # Fallback DKMS config (should match shipped dkms.conf)
     cat > "$dkms_conf" << EOF
 PACKAGE_NAME="${DRV_NAME}"
 PACKAGE_VERSION="${DRV_VERSION}"
-CLEAN="cd drivers/aic8800 && make clean"
-MAKE="cd drivers/aic8800 && make"
+MAKE="KVER=\${kernelver} KDIR=/lib/modules/\${kernelver}/build 'make' -C drivers/aic8800"
+CLEAN="KVER=\${kernelver} KDIR=/lib/modules/\${kernelver}/build 'make' -C drivers/aic8800 clean"
 
-# Módulo principal (aic8800_fdrv)
+# Main module (aic8800_fdrv)
 BUILT_MODULE_NAME[0]="aic8800_fdrv"
 BUILT_MODULE_LOCATION[0]="drivers/aic8800/aic8800_fdrv"
 DEST_MODULE_LOCATION[0]="/updates/dkms"
 
-# Módulo de carregamento de firmware (aic_load_fw)
+# Firmware loading module (aic_load_fw)
 BUILT_MODULE_NAME[1]="aic_load_fw"
 BUILT_MODULE_LOCATION[1]="drivers/aic8800/aic_load_fw"
 DEST_MODULE_LOCATION[1]="/updates/dkms"
 
-# Quirk ZLP para Bluetooth ACL bulk TX (somente 368b:8d81)
+# Device-scoped standard-btusb ACL bulk TX ZLP quirk (368b:8d81 only)
 BUILT_MODULE_NAME[2]="aic_zlp_quirk"
 BUILT_MODULE_LOCATION[2]="drivers/aic8800/aic_zlp_quirk"
 DEST_MODULE_LOCATION[2]="/updates/dkms"
@@ -773,6 +798,8 @@ load_module() {
     # aic8800_fdrv depends on aic_load_fw, which initializes both Wi-Fi-only
     # adapters and the Bluetooth firmware on combo adapters. If a standard HCI
     # USB interface appears afterwards, the kernel USB modalias loads btusb.
+    print_info "Loading firmware loader (aic_load_fw)..."
+    modprobe aic_load_fw >> "$LOG_FILE" 2>&1 || true
     print_info "Loading $MODULE_NAME..."
     if modprobe "$MODULE_NAME" >> "$LOG_FILE" 2>&1; then
         print_success "Wi-Fi module loaded successfully."

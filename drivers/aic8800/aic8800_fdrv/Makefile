@@ -147,6 +147,17 @@ CONFIG_SUPPORT_4ADDR = n
 #support D80X2 can write rf result to file
 CONFIG_WRITE_FILE_D80X2 = n
 
+# Auto-detect wireless extensions support from the target kernel configuration.
+# CONFIG_WIRELESS_EXT is a kernel option that may be absent on modern kernels.
+ifeq ($(CONFIG_WIRELESS_EXT),)
+  ifneq ($(wildcard $(KDIR)/.config),)
+    CONFIG_WIRELESS_EXT := $(shell grep -s '^CONFIG_WIRELESS_EXT=y' $(KDIR)/.config >/dev/null 2>&1 && echo y || echo n)
+  else ifneq ($(wildcard $(KDIR)/include/config/auto.conf),)
+    CONFIG_WIRELESS_EXT := $(shell grep -s '^CONFIG_WIRELESS_EXT=y' $(KDIR)/include/config/auto.conf >/dev/null 2>&1 && echo y || echo n)
+  else
+    CONFIG_WIRELESS_EXT := n
+  endif
+endif
 ifneq ($(CONFIG_WIRELESS_EXT), y)
 CONFIG_USE_WIRELESS_EXT = n
 endif
@@ -410,7 +421,7 @@ KDIR ?= /lib/modules/$(KVER)/build
 #KDIR ?= ~/D/Workspace/CyberQuantum/Linux/linux-4.15/
 PWD   ?= $(shell pwd)
 MODDESTDIR ?= /lib/modules/$(KVER)/kernel/drivers/net/wireless/aic8800
-SUBARCH = $(shell uname -m | sed -e s/i.86/i386/ -e s/armv.l/arm/ -e s/aarch64/arm64/)
+SUBARCH = $(shell uname -m | sed -e s/i.86/i386/ -e s/armv.l/arm/ -e s/aarch64/arm64/ -e s/riscv64/riscv/ -e s/loongarch64/loongarch/ -e s/loong64/loongarch/)
 ARCH ?= $(SUBARCH)
 CROSS_COMPILE ?=
 endif
