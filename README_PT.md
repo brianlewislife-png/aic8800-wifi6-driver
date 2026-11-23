@@ -30,7 +30,7 @@ driver `aic8800_fdrv` assume o controle.
 - Compilador (gcc), make, headers do kernel
 - Acesso root (sudo)
 
-## Instalação rápida (Debian/Ubuntu)
+## Instalação (Debian/Ubuntu um clique)
 
 ```bash
 cd "aic8800-wifi6-driver"

@@ -33,7 +33,7 @@ adaptador usb wifi 6, driver wifi 6 linux, aic8800, aic8800d80, aicsemi, usb wif
 ## 📋 Índice
 
 1. [Requisitos](#-requisitos)
-2. [Instalação rápida (Debian/Ubuntu)](#-instalação-rápida-debianubuntu)
+2. [Instalação (Debian/Ubuntu um clique)](#-instalação-debianubuntu-um-clique)
 3. [Instalação manual](#-instalação-manual)
 4. [Instalação por distribuição](#-instalação-por-distribuição)
 5. [Verificar se funcionou](#-verificar-se-funcionou)
@@ -56,7 +56,7 @@ adaptador usb wifi 6, driver wifi 6 linux, aic8800, aic8800d80, aicsemi, usb wif
 
 ---
 
-## ⚡ Instalação rápida (Debian/Ubuntu)
+## ⚡ Instalação (Debian/Ubuntu um clique)
 
 ```bash
 git clone https://github.com/brianlewislife-png/aic8800-wifi6-driver.git
