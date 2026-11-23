@@ -1,4 +1,4 @@
-# AIC8800 WiFi 6 USB Driver — Adaptador USB WiFi 6 Dual Band (2 Antenas)
+# AIC8800 WiFi 6 USB Driver, Adaptador USB WiFi 6 Dual Band (2 Antenas)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Kernel](https://img.shields.io/badge/kernel-5.4--7.3-blue.svg)]()
@@ -65,7 +65,7 @@ adaptador usb wifi 6, driver wifi 6 linux, aic8800, aic8800d80, aicsemi, usb wif
 | 5.15.x | ✅ Suportado | LTS, funciona |
 | 6.1.x  | ✅ Suportado | LTS Debian 12 |
 | 6.6.x  | ✅ Suportado | LTS |
-| 6.12.x | ✅ Testado  | Debian 13 (`6.12.117+deb13-amd64`) — issue #110 do upstream |
+| 6.12.x | ✅ Testado  | Debian 13 (`6.12.117+deb13-amd64`), issue #110 do upstream |
 | 6.16.x | ✅ Testado  | Ubuntu 25.04 |
 | 7.0.x  | ⚠️ Experimental | Pode exigir `--force` |
 | 7.1–7.3 | ⚠️ Experimental | Pode exigir `--force` |
@@ -100,9 +100,9 @@ adaptador usb wifi 6, driver wifi 6 linux, aic8800, aic8800d80, aicsemi, usb wif
 | Variante | Firmware | Status |
 |----------|----------|--------|
 | AIC8800D80 (esta placa) | `fw/aic8800D80/` | ✅ Principal |
-| AIC8800DC | — | Removido (não necessário) |
-| AIC8800D80N | — | Removido |
-| AIC8800D80X2 | — | Removido |
+| AIC8800DC |, | Removido (não necessário) |
+| AIC8800D80N |, | Removido |
+| AIC8800D80X2 |, | Removido |
 
 ### Modos USB
 
@@ -124,7 +124,7 @@ adaptador usb wifi 6, driver wifi 6 linux, aic8800, aic8800d80, aicsemi, usb wif
 - ❌ Kernels < 5.4
 - ❌ Kernels > 7.3 sem `--force`
 - ❌ Secure Boot habilitado (módulo não carrega)
-- ❌ Placas que não são AIC8800 (ex: Realtek, MediaTek) — use o driver correspondente
+- ❌ Placas que não são AIC8800 (ex: Realtek, MediaTek), use o driver correspondente
 
 ---
 
