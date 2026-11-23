@@ -54,6 +54,78 @@ adaptador usb wifi 6, driver wifi 6 linux, aic8800, aic8800d80, aicsemi, usb wif
 - Acesso root (`sudo`)
 - Pacotes: `dkms`, `build-essential`, `linux-headers-$(uname -r)`, `mokutil`, `eject`, `usb-modeswitch`
 
+## 🧩 Compatibilidade (versões que funcionam)
+
+### Kernels testados
+
+| Kernel | Status | Observação |
+|--------|--------|------------|
+| 5.4.x  | ✅ Suportado | LTS, funciona |
+| 5.10.x | ✅ Suportado | LTS, funciona |
+| 5.15.x | ✅ Suportado | LTS, funciona |
+| 6.1.x  | ✅ Suportado | LTS Debian 12 |
+| 6.6.x  | ✅ Suportado | LTS |
+| 6.12.x | ✅ Testado  | Debian 13 (`6.12.117+deb13-amd64`) — issue #110 do upstream |
+| 6.16.x | ✅ Testado  | Ubuntu 25.04 |
+| 7.0.x  | ⚠️ Experimental | Pode exigir `--force` |
+| 7.1–7.3 | ⚠️ Experimental | Pode exigir `--force` |
+| > 7.3  | ❌ Não suportado | Use `--force` por sua conta e risco |
+
+### Distribuições testadas
+
+| Distro | Versão | Kernel | Status |
+|--------|--------|--------|--------|
+| Debian | 12 (Bookworm) | 6.1.x | ✅ |
+| Debian | 13 (Trixie) | 6.12.111 / 6.12.117 | ✅ Testado |
+| Ubuntu | 22.04 / 24.04 | 5.15 / 6.8 | ✅ |
+| Ubuntu | 25.04 | 6.16 | ✅ |
+| Fedora | 40+ | 6.8+ | ✅ |
+| Arch Linux | rolling | latest | ✅ |
+| Linux Mint | 21/22 | 5.15/6.8 | ✅ |
+| openSUSE | Tumbleweed | latest | ✅ |
+| Alpine | 3.19+ | 6.6 | ⚠️ Parcial |
+| Raspberry Pi OS | Bookworm | 6.6 | ⚠️ ARM, não totalmente testado |
+
+### Arquiteturas
+
+| Arquitetura | Status |
+|-------------|--------|
+| x86_64 (amd64) | ✅ Totalmente suportado |
+| aarch64 (arm64) | ⚠️ Suportado, menos testado |
+| armhf (32-bit) | ⚠️ Experimental |
+| riscv64 | ⚠️ Experimental |
+
+### Variantes de chip suportadas
+
+| Variante | Firmware | Status |
+|----------|----------|--------|
+| AIC8800D80 (esta placa) | `fw/aic8800D80/` | ✅ Principal |
+| AIC8800DC | — | Removido (não necessário) |
+| AIC8800D80N | — | Removido |
+| AIC8800D80X2 | — | Removido |
+
+### Modos USB
+
+| VID:PID | Modo | Ação |
+|---------|------|------|
+| `a69c:5721` | Pendrive (MSC) | Eject automático → WiFi |
+| `a69c:5722` | Pendrive (MSC) | Eject automático |
+| `a69c:5723` | Pendrive (MSC) | Eject automático (Tenda) |
+| `a69c:5724`–`5732` | Pendrive (MSC) | Eject automático (variantes) |
+| `1111:1111` (produto 88M80) | Pandora clone | usb_modeswitch |
+
+### Bluetooth (combo)
+
+- Adapters combo usam o driver padrão `btusb` do kernel.
+- O quirk `aic_zlp_quirk` é carregado automaticamente para `368b:8d81`.
+
+### O que NÃO funciona
+
+- ❌ Kernels < 5.4
+- ❌ Kernels > 7.3 sem `--force`
+- ❌ Secure Boot habilitado (módulo não carrega)
+- ❌ Placas que não são AIC8800 (ex: Realtek, MediaTek) — use o driver correspondente
+
 ---
 
 ## ⚡ Instalação (Debian/Ubuntu um clique)

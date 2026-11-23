@@ -39,8 +39,16 @@ Baixe o zip do repositório e extraia. Rode `sudo ./install.sh --skip-deps` apó
 
 Se o módulo não carregar, desative o Secure Boot na BIOS/UEFI. O instalador detecta e avisa.
 
+## Compatibilidade resumida
+
+- Kernels: 5.4 a 7.3 (testado em 6.12.117 Debian 13)
+- Distros: Debian, Ubuntu, Fedora, Arch, openSUSE, Mint (Alpine/RPi parcial)
+- Arquitetura: x86_64 total; arm64/armhf/riscv experimental
+- Placas: AIC8800D80 (VID a69c, PIDs 5721-5732 e 1111:1111 Pandora)
+
 ## Links úteis
 
 - Repositório: https://github.com/brianlewislife-png/aic8800-wifi6-driver
 - Créditos: CREDITS.md
 - Changelog: CHANGELOG.md
+- Troubleshooting: TROUBLESHOOTING.md
