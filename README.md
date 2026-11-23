@@ -7,7 +7,8 @@
 [![Distro](https://img.shields.io/badge/distro-Debian%20%7C%20Ubuntu%20%7C%20Fedora%20%7C%20Arch-lightgrey.svg)]()
 
 > **Driver Linux (DKMS) para adaptador USB WiFi 6 Dual Band com 2 Antenas**  
-> Chipset **AICSemi AIC8800D80** (802.11ax, 2.4 GHz + 5 GHz).  
+> Chipset **AICSemi AIC8800DC / AIC8800D80** (802.11ax, 2.4 GHz + 5 GHz).  
+> Modo WiFi detectado: `a69c:88dc` (AIC8800DC). Modo pendrive: `a69c:5721`.  
 > Resolve o problema clássico: a placa é reconhecida como **pendrive/CD-ROM USB** (modo Mass Storage, `a69c:5721`) em vez de placa de rede. As regras udev fazem o eject automático e a placa passa a funcionar como **WiFi USB**.
 
 ---
@@ -99,8 +100,8 @@ adaptador usb wifi 6, driver wifi 6 linux, aic8800, aic8800d80, aicsemi, usb wif
 
 | Variante | Firmware | Status |
 |----------|----------|--------|
-| AIC8800D80 (esta placa) | `fw/aic8800D80/` | ✅ Principal |
-| AIC8800DC |, | Removido (não necessário) |
+| AIC8800DC (esta placa) | `fw/aic8800DC/` | ✅ Principal (WiFi mode `a69c:88dc`) |
+| AIC8800D80 | `fw/aic8800D80/` | ✅ Suportado (pendrive `a69c:5721`) |
 | AIC8800D80N |, | Removido |
 | AIC8800D80X2 |, | Removido |
 
