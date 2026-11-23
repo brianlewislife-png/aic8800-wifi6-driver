@@ -206,6 +206,14 @@ sudo eject /dev/sdX         # substitua X pela letra correta
 
 Depois desconecte e reconecte a placa.
 
+### Se o probe falhar (error -1 / bin upload fail)
+
+```bash
+sudo ./scripts/fix_probe.sh
+```
+
+Veja detalhes em [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
+
 ---
 
 ## 🩺 Diagnóstico
@@ -243,6 +251,7 @@ fw/aic8800D80/            # firmware do chip
 usb_modeswitch/           # config para clones Pandora
 scripts/diagnostico.sh    # diagnostico
 scripts/eject_placa.sh    # eject manual
+scripts/fix_probe.sh      # corrige probe failed (error -1)
 README_PT.md              # documentacao em portugues
 CREDITS.md                # creditos obrigatorios
 LICENSE                   # MIT
