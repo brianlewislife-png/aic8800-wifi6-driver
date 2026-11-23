@@ -1,6 +1,6 @@
 # AIC8800 WiFi 6 USB Driver
 
-Driver Linux (DKMS) para adaptador USB WiFi 6 Dual Band (2 antenas) — chipset AIC8800D80/DC.
+Driver Linux (DKMS) para adaptador USB WiFi 6 Dual Band (2 antenas), chipset AIC8800D80/DC.
 
 Resolve o problema: placa reconhecida como pendrive/CD-ROM USB (modo Mass Storage) em vez de placa de rede.
 
