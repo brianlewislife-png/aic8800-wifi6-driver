@@ -64,6 +64,7 @@ sudo modprobe aic8800_fdrv
 - Firmware incompatível com a revisão do chip (chip_sub_id).
 - Porta USB instável (tente outra porta, preferencialmente USB 2.0).
 - Cabo USB com problema.
+- Revisão do chip não suportada pelo driver open-source.
 
 **Soluções:**
 1. Tente outras variantes de firmware:
@@ -79,6 +80,10 @@ sudo ./scripts/fix_probe.sh
 
 2. Tente em outra porta USB (USB 2.0 preferencialmente).
 3. Teste com outro cabo USB.
+4. Se nada funcionar, a revisão do chip pode não ser suportada. Verifique:
+   - Se a placa veio com CD/pendrive (driver do fabricante)
+   - Ou considere uma placa com chip Realtek (RTL8812AU/RTL8821CU) com melhor suporte Linux
+   - Ou aguarde atualização do upstream (shenmintao/RicknotDev)
 
 ### 4. Módulo não encontrado
 **Sintoma:** `modprobe: FATAL: Module aic8800_fdrv not found`
