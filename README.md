@@ -1,135 +1,18 @@
-# AIC8800 WiFi 6 USB Driver, Adaptador USB WiFi 6 Dual Band (2 Antenas)
+# AIC8800 WiFi 6 USB Driver
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Kernel](https://img.shields.io/badge/kernel-5.4--7.3-blue.svg)]()
-[![Chipset](https://img.shields.io/badge/chipset-AIC8800D80-green.svg)]()
-[![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)]()
-[![Distro](https://img.shields.io/badge/distro-Debian%20%7C%20Ubuntu%20%7C%20Fedora%20%7C%20Arch-lightgrey.svg)]()
+Driver Linux (DKMS) para adaptador USB WiFi 6 Dual Band (2 antenas) — chipset AIC8800D80/DC.
 
-> **Driver Linux (DKMS) para adaptador USB WiFi 6 Dual Band com 2 Antenas**  
-> Chipset **AICSemi AIC8800DC / AIC8800D80** (802.11ax, 2.4 GHz + 5 GHz).  
-> Modo WiFi detectado: `a69c:88dc` (AIC8800DC). Modo pendrive: `a69c:5721`.  
-> Resolve o problema clássico: a placa é reconhecida como **pendrive/CD-ROM USB** (modo Mass Storage, `a69c:5721`) em vez de placa de rede. As regras udev fazem o eject automático e a placa passa a funcionar como **WiFi USB**.
+Resolve o problema: placa reconhecida como pendrive/CD-ROM USB (modo Mass Storage) em vez de placa de rede.
 
----
+## Compatibilidade
 
-## 🔍 Palavras-chave (para busca)
+- **Kernels:** 5.4 a 7.3 (testado em 6.12.117 Debian 13)
+- **Distros:** Debian, Ubuntu, Fedora, RHEL, Arch, openSUSE, Alpine, Void, Solus
+- **Arquitetura:** x86_64 (total), aarch64 (parcial), armhf/riscv64 (experimental)
+- **USB:** 2.0 recomendado. USB 3.0 pode causar `bin upload fail` (err:-32)
+- **VID:PID WiFi:** a69c:88dc | **VID:PID pendrive:** a69c:5721
 
-adaptador usb wifi 6, driver wifi 6 linux, aic8800, aic8800d80, aicsemi, usb wifi dual band, placa wifi usb linux, pendrive reconhecido como wifi, modeswitch aic, debian wifi driver, ubuntu wifi driver, kernel 6.12 wifi, 802.11ax linux, wifi 6 usb adaptador 2 antenas, driver aic8800 debian 13, how to install aic8800 driver, aic8800 modeswitch 5721.
-
----
-
-## ✨ Destaques
-
-- ✅ Modo **pendrive → WiFi** automático via regras udev (sem intervenção manual)
-- ✅ Instalador universal com **DKMS** (recompila após atualização de kernel)
-- ✅ Suporta **Debian/Ubuntu, Fedora/RHEL, Arch, openSUSE, Alpine, Void, Solus**
-- ✅ Kernels **5.4 a 7.3** (testado em Debian 13 / kernel `6.12.117+deb13-amd64`)
-- ✅ Firmware e configuração `usb_modeswitch` inclusos
-- ✅ Scripts de **diagnóstico** e **eject manual**
-- ✅ Instalação em **um clique** no Debian/Ubuntu
-
----
-
-## 📋 Índice
-
-1. [Requisitos](#-requisitos)
-2. [Instalação (Debian/Ubuntu um clique)](#-instalação-debianubuntu-um-clique)
-3. [Instalação manual](#-instalação-manual)
-4. [Instalação por distribuição](#-instalação-por-distribuição)
-5. [Verificar se funcionou](#-verificar-se-funcionou)
-6. [Se a placa continuar como pendrive](#-se-a-placa-continuar-como-pendrive)
-7. [Diagnóstico](#-diagnóstico)
-8. [Desinstalar](#-desinstalar)
-9. [Estrutura do projeto](#-estrutura-do-projeto)
-10. [Troubleshooting / FAQ](#-troubleshooting--faq)
-11. [Créditos obrigatórios](#-créditos-obrigatórios)
-12. [Licença](#-licença)
-
----
-
-## 📦 Requisitos
-
-- Linux com kernel **5.4 a 7.3**
-- Compilador (`gcc`), `make`, headers do kernel
-- Acesso root (`sudo`)
-- Pacotes: `dkms`, `build-essential`, `linux-headers-$(uname -r)`, `mokutil`, `eject`, `usb-modeswitch`
-
-## 🧩 Compatibilidade (versões que funcionam)
-
-### Kernels testados
-
-| Kernel | Status | Observação |
-|--------|--------|------------|
-| 5.4.x  | ✅ Suportado | LTS, funciona |
-| 5.10.x | ✅ Suportado | LTS, funciona |
-| 5.15.x | ✅ Suportado | LTS, funciona |
-| 6.1.x  | ✅ Suportado | LTS Debian 12 |
-| 6.6.x  | ✅ Suportado | LTS |
-| 6.12.x | ✅ Testado  | Debian 13 (`6.12.117+deb13-amd64`), issue #110 do upstream |
-| 6.16.x | ✅ Testado  | Ubuntu 25.04 |
-| 7.0.x  | ⚠️ Experimental | Pode exigir `--force` |
-| 7.1–7.3 | ⚠️ Experimental | Pode exigir `--force` |
-| > 7.3  | ❌ Não suportado | Use `--force` por sua conta e risco |
-
-### Distribuições testadas
-
-| Distro | Versão | Kernel | Status |
-|--------|--------|--------|--------|
-| Debian | 12 (Bookworm) | 6.1.x | ✅ |
-| Debian | 13 (Trixie) | 6.12.111 / 6.12.117 | ✅ Testado |
-| Ubuntu | 22.04 / 24.04 | 5.15 / 6.8 | ✅ |
-| Ubuntu | 25.04 | 6.16 | ✅ |
-| Fedora | 40+ | 6.8+ | ✅ |
-| Arch Linux | rolling | latest | ✅ |
-| Linux Mint | 21/22 | 5.15/6.8 | ✅ |
-| openSUSE | Tumbleweed | latest | ✅ |
-| Alpine | 3.19+ | 6.6 | ⚠️ Parcial |
-| Raspberry Pi OS | Bookworm | 6.6 | ⚠️ ARM, não totalmente testado |
-
-### Arquiteturas
-
-| Arquitetura | Status |
-|-------------|--------|
-| x86_64 (amd64) | ✅ Totalmente suportado |
-| aarch64 (arm64) | ⚠️ Suportado, menos testado |
-| armhf (32-bit) | ⚠️ Experimental |
-| riscv64 | ⚠️ Experimental |
-
-### Variantes de chip suportadas
-
-| Variante | Firmware | Status |
-|----------|----------|--------|
-| AIC8800DC (esta placa) | `fw/aic8800DC/` | ✅ Principal (WiFi mode `a69c:88dc`) |
-| AIC8800D80 | `fw/aic8800D80/` | ✅ Suportado (pendrive `a69c:5721`) |
-| AIC8800D80N |, | Removido |
-| AIC8800D80X2 |, | Removido |
-
-### Modos USB
-
-| VID:PID | Modo | Ação |
-|---------|------|------|
-| `a69c:5721` | Pendrive (MSC) | Eject automático → WiFi |
-| `a69c:5722` | Pendrive (MSC) | Eject automático |
-| `a69c:5723` | Pendrive (MSC) | Eject automático (Tenda) |
-| `a69c:5724`–`5732` | Pendrive (MSC) | Eject automático (variantes) |
-| `1111:1111` (produto 88M80) | Pandora clone | usb_modeswitch |
-
-### Bluetooth (combo)
-
-- Adapters combo usam o driver padrão `btusb` do kernel.
-- O quirk `aic_zlp_quirk` é carregado automaticamente para `368b:8d81`.
-
-### O que NÃO funciona
-
-- ❌ Kernels < 5.4
-- ❌ Kernels > 7.3 sem `--force`
-- ❌ Secure Boot habilitado (módulo não carrega)
-- ❌ Placas que não são AIC8800 (ex: Realtek, MediaTek), use o driver correspondente
-
----
-
-## ⚡ Instalação (Debian/Ubuntu um clique)
+## Instalação (Debian/Ubuntu um clique)
 
 ```bash
 git clone https://github.com/brianlewislife-png/aic8800-wifi6-driver.git
@@ -137,281 +20,74 @@ cd aic8800-wifi6-driver
 sudo ./instalar_debian.sh
 ```
 
-O script instala dependências, compila via DKMS, instala firmware, regras udev e carrega o módulo.
-
----
-
-## 🛠️ Instalação manual
+## Instalação manual
 
 ```bash
-make                          # compila
-sudo make install             # instala
-sudo modprobe aic8800_fdrv    # carrega
-```
-
----
-
-## 🐧 Instalação por distribuição
-
-### Debian / Ubuntu
-```bash
-sudo apt-get update
 sudo apt-get install -y dkms build-essential linux-headers-$(uname -r) mokutil eject usb-modeswitch
 sudo ./install.sh
 ```
 
-### Fedora / RHEL / CentOS
-```bash
-sudo dnf install -y dkms make gcc mokutil util-linux usb_modeswitch kernel-devel kernel-headers
-sudo ./install.sh
-```
-
-### Arch Linux
-```bash
-sudo pacman -S --needed dkms base-devel mokutil util-linux usb_modeswitch linux-headers
-sudo ./install.sh
-```
-
-### openSUSE
-```bash
-sudo zypper install dkms make gcc mokutil util-linux usb_modeswitch kernel-devel
-sudo ./install.sh
-```
-
----
-
-## 🔍 Verificar se funcionou
+## Verificar
 
 ```bash
-./scripts/diagnostico.sh
 lsusb | grep -i aic
 ip link show
-iwconfig
 nmcli device wifi list
-sudo dmesg | grep aic8800
 ```
 
-Saída esperada: a placa aparece em modo WiFi (não "Aic MSC"), e uma interface `wlan0`/`wlx...` surge.
-
----
-
-## 🔁 Se a placa continuar como pendrive
+## Se a placa continuar como pendrive
 
 ```bash
 sudo ./scripts/eject_placa.sh
-# ou manualmente:
-lsblk                       # identifique o disco (ex: /dev/sdb)
-sudo eject /dev/sdX         # substitua X pela letra correta
 ```
 
-Depois desconecte e reconecte a placa.
-
-### Se o probe falhar (error -1 / bin upload fail)
+## Se o probe falhar (error -1)
 
 ```bash
 sudo ./scripts/fix_probe.sh
 ```
 
-Veja detalhes em [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
-
----
-
-## 🩺 Diagnóstico
-
-```bash
-./scripts/diagnostico.sh
-```
-
-Mostra: modo da placa (pendrive/WiFi), módulos carregados, DKMS, firmware, regras udev, interfaces e logs.
-
----
-
-## 🗑️ Desinstalar
+## Desinstalar
 
 ```bash
 sudo ./uninstall.sh
-# ou manualmente:
-sudo dkms remove aic8800/1.0.0 --all
-sudo rm -rf /lib/firmware/aic8800*
-sudo rm -f /usr/lib/udev/rules.d/aic.rules
 ```
 
----
-
-## 📁 Estrutura do projeto
+## Estrutura
 
 ```
-aic.rules                  # regras udev (modeswitch pendrive -> WiFi)
-install.sh                 # instalador universal (DKMS)
-instalar_debian.sh         # atalho Debian/Ubuntu (um clique)
-uninstall.sh               # remocao
-dkms.conf                 # configuracao DKMS
-drivers/aic8800/          # codigo fonte do driver (aic8800_fdrv, aic_load_fw, aic_zlp_quirk)
-fw/aic8800D80/            # firmware do chip
-usb_modeswitch/           # config para clones Pandora
-scripts/diagnostico.sh    # diagnostico
-scripts/eject_placa.sh    # eject manual
-scripts/fix_probe.sh      # corrige probe failed (error -1)
-README_PT.md              # documentacao em portugues
-CREDITS.md                # creditos obrigatorios
-LICENSE                   # MIT
+aic.rules              # regras udev
+install.sh             # instalador universal (DKMS)
+instalar_debian.sh     # atalho Debian/Ubuntu
+uninstall.sh           # remoção
+dkms.conf             # config DKMS
+drivers/aic8800/       # código fonte
+fw/aic8800D80/         # firmware D80
+fw/aic8800DC/          # firmware DC
+usb_modeswitch/        # config Pandora
+scripts/               # diagnostico, eject, fix_probe, pandora_modeswitch
+CREDITS.md             # créditos obrigatórios
+LICENSE                # MIT
 ```
 
----
+## Placas compatíveis
 
-## 📡 Placas de rede compatíveis (adaptadores USB WiFi)
+Tenda U11, Mercusys AX300/AX900, UGREEN AX900/AX900BT, Brostrend AX900BT, Cudy WU1300S, EDUP EP-AC1621, adaptadores genéricos AX300/AX900.
 
-### Adaptadores que usam chipset AIC8800 (funcionam com este driver)
+Verifique: `lsusb | grep -i aic` (deve mostrar a69c:88dc ou a69c:5721)
 
-| Marca/Modelo | Chipset | VID:PID (WiFi) | Status |
-|--------------|---------|----------------|--------|
-| Tenda U11 | AIC8800D80 | a69c:88dc | ✅ Testado |
-| Mercusys AX300 | AIC8800DC/D80 | a69c:88dc | ✅ Testado |
-| Mercusys AX900 | AIC8800DC | a69c:88dc | ✅ |
-| UGREEN AX900BT | AIC8800DC | a69c:88dc | ✅ |
-| UGREEN AX900 | AIC8800D80 | a69c:88dc | ✅ |
-| Brostrend AX900BT | AIC8800DC | a69c:88dc | ✅ |
-| Cudy WU1300S | AIC8800D80 | a69c:88dc | ✅ |
-| Adaptador genérico AX300 (AliExpress/Amazon) | AIC8800DC | a69c:88dc | ✅ |
-| Adaptador genérico AX900 (AliExpress/Amazon) | AIC8800D80/DC | a69c:88dc | ✅ |
-| TP-Link Archer T3U (alguns) | AIC8800D80 | a69c:88dc | ⚠️ Parcial |
-| EDUP EP-AC1621 | AIC8800DC | a69c:88dc | ✅ |
+## Créditos obrigatórios (não remover)
 
-### Como verificar se sua placa é compatível
+- Autor: Brian Lewis
+- GitHub: github.com/brianlewislife-png
+- LinkedIn: linkedin.com/in/brian-lewis-4ba63739a
+- Telegram: t.me/brianlewisdev
+- Instagram: instagram.com/Brian_lewis_2
+- YouTube: youtube.com/@brianlewisdeveloper
+- Canal Zap: https://www.whatsapp.com/channel/0029Vb8ZCiC3QxRsbIylpN45
 
-1. Conecte a placa e rode:
-   ```bash
-   lsusb | grep -i aic
-   ```
-2. Se aparecer `a69c:88dc` ou `a69c:5721` (modo pendrive), é AIC8800 e compatível.
-3. Se aparecer outro VID:PID, pode ser outro chip (Realtek, MediaTek, etc.) — use o driver correspondente.
+Veja CREDITS.md. Remover créditos é proibido.
 
-### Placas NÃO compatíveis (outros chips)
+## Licença
 
-| Marca/Modelo | Chipset | Driver recomendado |
-|--------------|---------|-------------------|
-| TP-Link Archer T4U | Realtek RTL8812AU | rtl8812au |
-| Netgear A6210 | MediaTek MT7612U | mt76 |
-| ASUS USB-AC68 | Broadcom | brcmfmac |
-| Linksys WUSB6300 | Realtek RTL8812AU | rtl8812au |
-| Panda PAU09 | Ralink RT5572 | rt2800usb |
-
-### Palavras-chave para busca (Google/YouTube)
-
-adaptador wifi 6 usb linux, driver aic8800, aic8800dc driver, aic8800d80 driver, placa wifi usb linux debian, wifi 6 usb adapter linux driver, aicsemi aic8800, modeswitch aic8800, pendrive reconhecido wifi linux, adaptador usb wifi dual band linux, ax300 linux driver, ax900 linux driver, mercusys ax300 linux, tenda u11 linux, ugreen ax900 linux, brostrend ax900bt linux, cudy wu1300s linux.
-
-## 🔌 Compatibilidade USB (detalhado)
-
-### Versões USB suportadas
-
-| Versão USB | Velocidade | Status | Observação |
-|------------|------------|--------|------------|
-| USB 1.0    | 1.5 Mbps   | ❌ Não recomendado | Muito lento, pode não funcionar |
-| USB 1.1    | 12 Mbps    | ⚠️ Limitado | Funciona mas lento |
-| USB 2.0    | 480 Mbps   | ✅ Recomendado | Melhor compatibilidade, estável |
-| USB 3.0    | 5 Gbps     | ⚠️ Instável | Pode causar `bin upload fail` (err:-32). Use USB 2.0 se possível |
-| USB 3.1    | 10 Gbps    | ⚠️ Instável | Mesmo problema do USB 3.0 |
-| USB 3.2    | 20 Gbps    | ⚠️ Instável | Mesmo problema do USB 3.0 |
-| USB 4      | 40 Gbps    | ⚠️ Não testado | Pode não funcionar |
-| USB-C      | Variável   | ⚠️ Depende | Se for USB 2.0, OK; se USB 3.x, problemas |
-
-### Requisitos de porta USB
-
-- **Preferência:** USB 2.0 (portas pretas, não azuis)
-- **Evitar:** USB 3.0+ (portas azuis) — pode causar `err:-32` (broken pipe)
-- **Se só tiver USB 3.0:** Use um hub USB 2.0 entre a placa e o PC
-- **Autosuspend:** Desative com `echo -1 > /sys/module/usbcore/parameters/autosuspend`
-
-### Problemas comuns por versão USB
-
-#### USB 3.0 / 3.1 / 3.2
-- **Sintoma:** `bin upload fail: 180000, err:-32` (USB broken pipe)
-- **Causa:** Instabilidade na transferência de firmware via USB 3.0
-- **Solução:**
-  1. Conecte em porta USB 2.0
-  2. Ou use hub USB 2.0
-  3. Desative autosuspend: `echo -1 > /sys/module/usbcore/parameters/autosuspend`
-  4. Se persistir, pode ser incompatibilidade de firmware
-
-#### USB 2.0
-- **Status:** Recomendado e estável
-- **Observação:** Funciona na maioria dos casos sem problemas
-
-#### USB 1.x
-- **Status:** Não recomendado
-- **Observação:** Velocidade muito baixa, pode não funcionar
-
-### Como identificar a versão da sua porta USB
-
-```bash
-# Listar portas USB e versões
-lsusb -t
-
-# Exemplo de saída:
-# /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M
-#     |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/4p, 480M
-#     |__ Port 2: Dev 3, If 0, Class=Vendor Specific Class, Driver=aic8800_fdrv, 480M
-# 480M = USB 2.0
-# 5000M = USB 3.0
-# 12M = USB 1.1
-```
-
-### Dicas para USB
-
-1. **Use portas USB 2.0** (pretas) sempre que possível
-2. **Evite hubs USB 3.0** — use hubs USB 2.0
-3. **Desative autosuspend** permanentemente:
-   ```bash
-   echo "options usbcore autosuspend=-1" | sudo tee /etc/modprobe.d/usb-autosuspend.conf
-   ```
-4. **Se a placa for USB 3.0**, ela funciona em portas USB 2.0 (com velocidade reduzida)
-5. **Cabo USB:** Use cabo curto (< 1m) e de qualidade
-
-## 🆘 Troubleshooting / FAQ
-
-**P: A placa não aparece em `lsusb` como WiFi, só como "Aic MSC".**  
-R: Rode `sudo ./scripts/eject_placa.sh` e reconecte. Verifique se `aic.rules` está em `/usr/lib/udev/rules.d/`.
-
-**P: `modprobe aic8800_fdrv` falha.**  
-R: Verifique `sudo dmesg | grep aic8800`. Pode ser Secure Boot (desative na BIOS) ou kernel headers ausentes.
-
-**P: Erro de compilação no DKMS.**  
-R: Confirme `linux-headers-$(uname -r)` instalado e gcc compatível. Veja `/var/log/aic8800-install.log`.
-
-**P: Funciona em Raspberry Pi / ARM?**  
-R: O driver suporta ARM via DKMS, mas precisa dos headers da plataforma. Testado principalmente em x86_64.
-
-**P: A placa é WiFi+Bluetooth (combo).**  
-R: O `aic_load_fw` inicializa o firmware; o Bluetooth usa o driver padrão `btusb` do kernel. O quirk `aic_zlp_quirk` é carregado automaticamente para `368b:8d81`.
-
-**P: Kernel muito novo (> 7.3).**  
-R: Use `sudo ./install.sh --force` por sua conta e risco.
-
----
-
-## 🧾 Créditos OBRIGATÓRIOS (não remover)
-
-Este pacote só pode ser redistribuído mantendo integralmente os créditos:
-
-- **Autor:** Brian Lewis
-- **GitHub:** https://github.com/brianlewislife-png
-- **LinkedIn:** https://www.linkedin.com/in/brian-lewis-4ba63739a
-- **Telegram:** https://t.me/brianlewisdev
-- **Instagram:** https://www.instagram.com/Brian_lewis_2
-- **YouTube:** https://www.youtube.com/@brianlewisdeveloper
-- **Canal Zap:** https://www.whatsapp.com/channel/0029Vb8ZCiC3QxRsbIylpN45
-- **X / Twitter e Reddit:** links oficiais em breve
-
-Veja `CREDITS.md`. Remover ou alterar estes créditos é proibido.
-
----
-
-## 📜 Licença
-
-Código base (AIC8800) sob licença MIT do upstream (RicknotDev/shenmintao).  
-Modificações, scripts, documentação e empacotamento: © Brian Lewis.
-
----
-
-> Baseado em: https://github.com/RicknotDev/aic8800d80  
-> Testado em: Debian 13, kernel 6.12.117+deb13-amd64 (issue #110 do upstream).
+MIT (veja LICENSE). Código base: RicknotDev/shenmintao (MIT). Modificações: © Brian Lewis.
