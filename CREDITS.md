@@ -17,6 +17,7 @@ Brian Lewis
 - Telegram:    https://t.me/brianlewisdev
 - WhatsApp:    canal oficial de comunicados
 - Instagram:   https://www.instagram.com/Brian_lewis_2
+- YouTube:     https://www.youtube.com/@brianlewisdeveloper
 - Canal Zap:   https://www.whatsapp.com/channel/0029Vb8ZCiC3QxRsbIylpN45
 
 ## Licenca

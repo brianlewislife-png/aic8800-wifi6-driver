@@ -1,4 +1,13 @@
 #!/bin/bash
+# =====================================================================
+# CREDITOS OBRIGATORIOS (nao remover):
+# Autor: Brian Lewis
+# GitHub: github.com/brianlewislife-png | LinkedIn: linkedin.com/in/brian-lewis-4ba63739a
+# Telegram: t.me/brianlewisdev | Instagram: instagram.com/Brian_lewis_2
+# YouTube: youtube.com/@brianlewisdeveloper | Canal Zap: whatsapp.com/channel/0029Vb8ZCiC3QxRsbIylpN45
+# X/Twitter e Reddit: links oficiais em breve
+# Detalhes: veja arquivo CREDITS.md
+# =====================================================================
 # fix_probe.sh - Corrige o erro "probe failed with error -1" / "bin upload fail"
 # Causas comuns: firmware ausente, caminho errado, arquivo .bin faltando
 set -e

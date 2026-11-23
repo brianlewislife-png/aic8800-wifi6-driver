@@ -105,6 +105,13 @@ Testado em: Debian 13, kernel 6.12.117 (issue #110 do upstream).
 
 MIT (veja LICENSE).
 
+## Placas de rede compatíveis
+
+Adaptadores USB WiFi que usam chipset AIC8800 (funcionam com este driver):
+Tenda U11, Mercusys AX300/AX900, UGREEN AX900/AX900BT, Brostrend AX900BT,
+Cudy WU1300S, EDUP EP-AC1621, adaptadores genéricos AX300/AX900 (AliExpress/Amazon).
+Verifique com: `lsusb | grep -i aic` (deve mostrar a69c:88dc ou a69c:5721).
+
 ## CREDITOS OBRIGATORIOS (nao remover)
 
 Este pacote so pode ser redistribuido mantendo integralmente os creditos:
@@ -114,6 +121,7 @@ Este pacote so pode ser redistribuido mantendo integralmente os creditos:
 - LinkedIn: linkedin.com/in/brian-lewis-4ba63739a
 - Telegram: t.me/brianlewisdev
 - Instagram: instagram.com/Brian_lewis_2
+- YouTube: youtube.com/@brianlewisdeveloper
 - Canal Zap: https://www.whatsapp.com/channel/0029Vb8ZCiC3QxRsbIylpN45
 - X / Twitter e Reddit: links oficiais em breve
 

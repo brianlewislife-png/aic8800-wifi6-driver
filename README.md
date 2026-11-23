@@ -259,6 +259,47 @@ LICENSE                   # MIT
 
 ---
 
+## 📡 Placas de rede compatíveis (adaptadores USB WiFi)
+
+### Adaptadores que usam chipset AIC8800 (funcionam com este driver)
+
+| Marca/Modelo | Chipset | VID:PID (WiFi) | Status |
+|--------------|---------|----------------|--------|
+| Tenda U11 | AIC8800D80 | a69c:88dc | ✅ Testado |
+| Mercusys AX300 | AIC8800DC/D80 | a69c:88dc | ✅ Testado |
+| Mercusys AX900 | AIC8800DC | a69c:88dc | ✅ |
+| UGREEN AX900BT | AIC8800DC | a69c:88dc | ✅ |
+| UGREEN AX900 | AIC8800D80 | a69c:88dc | ✅ |
+| Brostrend AX900BT | AIC8800DC | a69c:88dc | ✅ |
+| Cudy WU1300S | AIC8800D80 | a69c:88dc | ✅ |
+| Adaptador genérico AX300 (AliExpress/Amazon) | AIC8800DC | a69c:88dc | ✅ |
+| Adaptador genérico AX900 (AliExpress/Amazon) | AIC8800D80/DC | a69c:88dc | ✅ |
+| TP-Link Archer T3U (alguns) | AIC8800D80 | a69c:88dc | ⚠️ Parcial |
+| EDUP EP-AC1621 | AIC8800DC | a69c:88dc | ✅ |
+
+### Como verificar se sua placa é compatível
+
+1. Conecte a placa e rode:
+   ```bash
+   lsusb | grep -i aic
+   ```
+2. Se aparecer `a69c:88dc` ou `a69c:5721` (modo pendrive), é AIC8800 e compatível.
+3. Se aparecer outro VID:PID, pode ser outro chip (Realtek, MediaTek, etc.) — use o driver correspondente.
+
+### Placas NÃO compatíveis (outros chips)
+
+| Marca/Modelo | Chipset | Driver recomendado |
+|--------------|---------|-------------------|
+| TP-Link Archer T4U | Realtek RTL8812AU | rtl8812au |
+| Netgear A6210 | MediaTek MT7612U | mt76 |
+| ASUS USB-AC68 | Broadcom | brcmfmac |
+| Linksys WUSB6300 | Realtek RTL8812AU | rtl8812au |
+| Panda PAU09 | Ralink RT5572 | rt2800usb |
+
+### Palavras-chave para busca (Google/YouTube)
+
+adaptador wifi 6 usb linux, driver aic8800, aic8800dc driver, aic8800d80 driver, placa wifi usb linux debian, wifi 6 usb adapter linux driver, aicsemi aic8800, modeswitch aic8800, pendrive reconhecido wifi linux, adaptador usb wifi dual band linux, ax300 linux driver, ax900 linux driver, mercusys ax300 linux, tenda u11 linux, ugreen ax900 linux, brostrend ax900bt linux, cudy wu1300s linux.
+
 ## 🔌 Compatibilidade USB (detalhado)
 
 ### Versões USB suportadas
@@ -357,6 +398,7 @@ Este pacote só pode ser redistribuído mantendo integralmente os créditos:
 - **LinkedIn:** https://www.linkedin.com/in/brian-lewis-4ba63739a
 - **Telegram:** https://t.me/brianlewisdev
 - **Instagram:** https://www.instagram.com/Brian_lewis_2
+- **YouTube:** https://www.youtube.com/@brianlewisdeveloper
 - **Canal Zap:** https://www.whatsapp.com/channel/0029Vb8ZCiC3QxRsbIylpN45
 - **X / Twitter e Reddit:** links oficiais em breve
 
